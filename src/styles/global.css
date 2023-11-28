@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+
+@layer base{
+    body{
+        @apply bg-mainBlue text-mainGray
+
+    }
+
+    p{
+      font-family: "Inter", system-ui, sans-serif;
+      @apply text-mainGray
+    }
+}
+
+::-webkit-scrollbar{
+    width: 12px;
+    height: 12px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    border-radius: 30px;
+    margin-right: 9px;
+    box-shadow: inset 0 0 10px 10px #606360;
+      border: solid 4px transparent;
+  
+  }
+  
