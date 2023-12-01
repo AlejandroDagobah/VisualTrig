@@ -12,7 +12,7 @@ module.exports = {
     title: `VisualTrig Trigonometry Visualization`,
     description: `Una manera fácil de visualizar trigonometría en tiempo real.`,
     author: `@dagobah`,
-    siteUrl: ``,
+    siteUrl: `https://visualtrig.netlify.app`,
   },
   plugins: [
     'gatsby-plugin-postcss',
