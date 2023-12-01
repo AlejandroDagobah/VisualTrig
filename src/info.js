@@ -10,9 +10,9 @@ var info = {
     modText:'Modifica en tiempo real el radio del circulo unitario, además de modificar los grados sexagesimales de la hipotenusa o radio.',
     
     sections:{
-      first:{title:"Circulo Unitario", desc:"El circulo unitario, es una circunferencia de radio uno, normalmente con su centro en el origen (0, 0). Se utiliza con el fin de poder estudiar fácilmente las razones trigonométricas, la hipotenusa en el circulo unitario siempre tiene longitud de 1 lo que facilita la visualización de las razones y el teorema de Pitágoras.", img:"../images/unit-circle.png"},
+      first:{title:"Círculo Unitario", desc:"El círculo unitario, es una circunferencia de radio uno, normalmente con su centro en el origen (0, 0). Se utiliza con el fin de poder estudiar fácilmente las razones trigonométricas, la hipotenusa en el círculo unitario siempre tiene longitud de 1 lo que facilita la visualización de las razones y el teorema de Pitágoras.", img:"../images/unit-circle.png"},
       second:{title:"Funciones Trigonométricas", desc:"Representación de las funciones trigonométricas en el plano cartesiano (x,y), los valores en el eje x expresados en radianes.", img:"../images/trigo-func.png"},
-      third:{title:"Modifica los Grados y el Radio.", desc:"Modifica en tiempo real el radio del circulo unitario, además de modificar los grados sexagesimales de la hipotenusa o radio.", img:"../images/modificators.png"},
+      third:{title:"Modifica los Grados y el Radio.", desc:"Modifica en tiempo real el radio del círculo unitario, además de modificar los grados sexagesimales de la hipotenusa o radio.", img:"../images/modificators.png"},
       fourth:{title:"Valores en tiempo real.", desc:"Revisa los valores de las funciones trigonométricas en tiempo real.", img:"../images/values.png"},
       fiveth:{title:"Opciones de visualización", desc:"Revisa una por una o varias razones trigonométricas, activa los cursores de las curvas de cada razón y activa o desactiva los nombres de estos.", img:"../images/options.png"},
     },

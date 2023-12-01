@@ -20,6 +20,7 @@ module.exports = withMT({
         darkerGray: '#4E4E4E',
         mainBlue: '#1F2A31',
         mainGreen: '#13F4BE',
+        darkerGreen: '#25C99C',
 
         trigoGreen: '#7BF179',
         trigoYellow: '#F4C313',
