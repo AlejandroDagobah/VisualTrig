@@ -1,6 +1,6 @@
 # VisualTrig
 
-![Uploading visualTrigGif (1).gif…]()
+![visualTrig](https://github.com/AlejandroDagobah/VisualTrig/assets/51984220/4f95cd66-b5c4-447a-83ea-dee56d938f78)
 
 
 ## About
