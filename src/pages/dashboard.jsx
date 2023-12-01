@@ -6,6 +6,7 @@ import {IconBrandGithubFilled} from "@tabler/icons-react"
 
 import CanvasMain from "../components/canvasMain"
 import CanvasCurves from "../components/canvasCurves"
+import Layout from "../components/layout";
 
 
 
@@ -111,143 +112,145 @@ export default function Dashboard(){
     })
     
     return(
-        <div className="w-full h-[100vh] p-2 md:p-6">
+        <Layout>
+            <div className="w-full h-[100vh] p-2 md:p-6">
 
-            <div className="flex flex-col md:flex-row h-[75%] md:h-[65%] gap-5">
-                <CanvasMain 
-                    degree={degreeRange} 
-                    radio={radioRange}
-                    showTexts={showTexts}
-                    fullNames={fullNames}
+                <div className="flex flex-col md:flex-row h-[75%] md:h-[65%] gap-5">
+                    <CanvasMain 
+                        degree={degreeRange} 
+                        radio={radioRange}
+                        showTexts={showTexts}
+                        fullNames={fullNames}
 
-                    setDegree={setDegreeRange}
+                        setDegree={setDegreeRange}
 
-                    radBool={radBool}
-                    xBool={xBool}
-                    yBool={yBool}
-                    sinBool={sinBool}
-                    cosBool={cosBool}
-                    tanBool={tanBool}
-                    cotBool={cotBool}
-                    cscBool={cscBool}
-                    secBool={secBool}
-                />
+                        radBool={radBool}
+                        xBool={xBool}
+                        yBool={yBool}
+                        sinBool={sinBool}
+                        cosBool={cosBool}
+                        tanBool={tanBool}
+                        cotBool={cotBool}
+                        cscBool={cscBool}
+                        secBool={secBool}
+                    />
 
-                <CanvasCurves
-                    degree={degreeRange} 
-                    radio={radioRange}
-                    showTexts={showTexts}
-                    fullNames={fullNames}
+                    <CanvasCurves
+                        degree={degreeRange} 
+                        radio={radioRange}
+                        showTexts={showTexts}
+                        fullNames={fullNames}
 
-                    setDegree={setDegreeRange}
+                        setDegree={setDegreeRange}
 
-                    radBool={radBool}
-                    xBool={xBool}
-                    yBool={yBool}
-                    sinBool={sinBool}
-                    cosBool={cosBool}
-                    tanBool={tanBool}
-                    cotBool={cotBool}
-                    cscBool={cscBool}
-                    secBool={secBool}
+                        radBool={radBool}
+                        xBool={xBool}
+                        yBool={yBool}
+                        sinBool={sinBool}
+                        cosBool={cosBool}
+                        tanBool={tanBool}
+                        cotBool={cotBool}
+                        cscBool={cscBool}
+                        secBool={secBool}
 
-                    sinCursorBool={sinCursorBool}
-                    cosCursorBool={cosCursorBool}
-                    tanCursorBool={tanCursorBool}
-                    cotCursorBool={cotCursorBool}
-                    secCursorBool={secCursorBool}
-                    cscCursorBool={cscCursorBool}
-                />
+                        sinCursorBool={sinCursorBool}
+                        cosCursorBool={cosCursorBool}
+                        tanCursorBool={tanCursorBool}
+                        cotCursorBool={cotCursorBool}
+                        secCursorBool={secCursorBool}
+                        cscCursorBool={cscCursorBool}
+                    />
+                    
                 
-               
-            </div>
-            <div className="flex flex-col md:flex-row rounded-xl bg-mainBlack drop-shadow-lg py-6 mt-4">
-
-                <div className="basis-1/4 min-h-[22vh] border-solid border-r-0 md:border-r-2 border-darkerGray px-6"> 
-                    <h3 className="text-darkerGray font-medium text-2xl mb-4">Modificators</h3>
-                    <div className="flex justify-between">
-                        <label htmlFor="degree-range" className="block text-lg font-medium text-white dark:text-white">Degree</label>
-                        <label htmlFor="degree-range" className="block text-lg font-medium -mb-2 text-mainGray">{Math.round(degreeRange)}</label>
-                    </div>
-                    <input id="degree-range" readOnly onMouseMove={()=>{setRange('degree-range', setDegreeRange)}} type="range" min="0" max="360" className="range-custom"/>
-
-                    <div className="flex justify-between mt-4">
-                        <label htmlFor="radio-range" className="block text-lg font-medium text-white dark:text-white">Radius Size</label>
-                        <label htmlFor="radio-range" className="-mb-2 block text-lg font-medium text-mainGray">{radioRange}</label>
-                    </div>
-                    <input id="radio-range" readOnly onMouseMove={()=>{setRange('radio-range', setRadioRange)}} type="range" min="50" max="500" className="range-custom"/>
-                </div> 
-
-                <div className="flex-1 border-solid border-r-0 md:border-r-2  border-darkerGray px-6 mt-5 md:mt-0">
-                    <h3 className="text-darkerGray font-medium text-2xl mb-4">Values</h3>
-                    <div className="grid grid-cols-3 md:grid-cols-2 xl:grid-cols-3 gap-3">
-                        {inputs}
-                    </div>
-
-                </div> 
-
-                <div className="flex-1 px-6 mt-5 md:mt-0">
-                    <h3 className="text-darkerGray font-medium text-2xl mb-4">Options</h3>
-                    <div className="flex flex-col sm:flex-row md:flex-col xl:flex-row gap-9 md:gap-3 justify-between">
-                        <div className="flex flex-col">
-                            <h5 className="block text-lg font-medium text-white dark:text-white mb-2">Draw Lines:</h5>
-
-                            <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-2 2xl:grid-cols-3 gap-3">
-                                {btns}
-                            </div>
-                        </div>
-                        <div className="flex flex-col">
-                            <h5 className="block text-lg font-medium text-white dark:text-white mb-2">Draw Cursors:</h5>
-                            <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-2 2xl:grid-cols-3 gap-3">
-                                {btnsCursors}
-                            </div>
-                        </div>
-
-
-                        <div className="flex flex-col">
-                            <h5 className="block text-lg font-medium text-white dark:text-white mb-2">Options:</h5>
-
-                                <Switch
-                                    label="Draw Texts"
-                                    className="bg-darkerGray checked:bg-trigoPurple"
-                                    labelProps={{
-                                        className:"font-medium font-Inter text-xs text-white"
-                                    }}
-                                    onClick={()=>setShowTexts((prevState) => !prevState)}
-                                    defaultChecked
-                                    />
-                                <Switch
-                                    label="Full Names"
-                                    className="bg-darkerGray checked:bg-trigoYellow"
-                                    labelProps={{
-                                        className:"font-medium font-Inter text-xs text-white mt-3"
-                                    }}
-                                    containerProps={{
-                                        className:"mt-3"
-                                    }}
-                                    onClick={()=>setFullNames((prevState) => !prevState)}
-                                    defaultChecked
-                                />
-                        </div>
-
-                       
-                    </div>
-                </div> 
-            </div>
-            <div className="flex flex-col md:flex-row py-2 justify-between items-center">
-                <div className="flex flex-col md:flex-row items-center gap-3 px-3">
-                    <StaticImage src="../images/VisualTrig.png" alt="VisualTrig Logo" className="drop-shadow-2xl w-[200px] h-full"/>
-                    <div dangerouslySetInnerHTML={{__html: info.madeBy}} ></div>
                 </div>
+                <div className="flex flex-col md:flex-row rounded-xl bg-mainBlack drop-shadow-lg py-6 mt-4">
 
-                <a href="https://github.com/AlejandroDagobah/VisualTrig" target="_blank" className="text-mainGreen text-sm underline-none transition-all duration-100 hover:-translate-y-[5px]">
-                    <span className="flex justify-between items-center">
-                    {info.repo}
-                    <IconBrandGithubFilled size={15} color="#13F4BE" className="ml-px"/>
-                    </span> 
-                </a>
+                    <div className="basis-1/4 min-h-[22vh] border-solid border-r-0 md:border-r-2 border-darkerGray px-6"> 
+                        <h3 className="text-darkerGray font-medium text-2xl mb-4">Modificators</h3>
+                        <div className="flex justify-between">
+                            <label htmlFor="degree-range" className="block text-lg font-medium text-white dark:text-white">Degree</label>
+                            <label htmlFor="degree-range" className="block text-lg font-medium -mb-2 text-mainGray">{Math.round(degreeRange)}</label>
+                        </div>
+                        <input id="degree-range" readOnly onMouseMove={()=>{setRange('degree-range', setDegreeRange)}} type="range" min="0" max="360" className="range-custom"/>
+
+                        <div className="flex justify-between mt-4">
+                            <label htmlFor="radio-range" className="block text-lg font-medium text-white dark:text-white">Radius Size</label>
+                            <label htmlFor="radio-range" className="-mb-2 block text-lg font-medium text-mainGray">{radioRange}</label>
+                        </div>
+                        <input id="radio-range" readOnly onMouseMove={()=>{setRange('radio-range', setRadioRange)}} type="range" min="50" max="500" className="range-custom"/>
+                    </div> 
+
+                    <div className="flex-1 border-solid border-r-0 md:border-r-2  border-darkerGray px-6 mt-5 md:mt-0">
+                        <h3 className="text-darkerGray font-medium text-2xl mb-4">Values</h3>
+                        <div className="grid grid-cols-3 md:grid-cols-2 xl:grid-cols-3 gap-3">
+                            {inputs}
+                        </div>
+
+                    </div> 
+
+                    <div className="flex-1 px-6 mt-5 md:mt-0">
+                        <h3 className="text-darkerGray font-medium text-2xl mb-4">Options</h3>
+                        <div className="flex flex-col sm:flex-row md:flex-col xl:flex-row gap-9 md:gap-3 justify-between">
+                            <div className="flex flex-col">
+                                <h5 className="block text-lg font-medium text-white dark:text-white mb-2">Draw Lines:</h5>
+
+                                <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-2 2xl:grid-cols-3 gap-3">
+                                    {btns}
+                                </div>
+                            </div>
+                            <div className="flex flex-col">
+                                <h5 className="block text-lg font-medium text-white dark:text-white mb-2">Draw Cursors:</h5>
+                                <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-2 2xl:grid-cols-3 gap-3">
+                                    {btnsCursors}
+                                </div>
+                            </div>
+
+
+                            <div className="flex flex-col">
+                                <h5 className="block text-lg font-medium text-white dark:text-white mb-2">Options:</h5>
+
+                                    <Switch
+                                        label="Draw Texts"
+                                        className="bg-darkerGray checked:bg-trigoPurple"
+                                        labelProps={{
+                                            className:"font-medium font-Inter text-xs text-white"
+                                        }}
+                                        onClick={()=>setShowTexts((prevState) => !prevState)}
+                                        defaultChecked
+                                        />
+                                    <Switch
+                                        label="Full Names"
+                                        className="bg-darkerGray checked:bg-trigoYellow"
+                                        labelProps={{
+                                            className:"font-medium font-Inter text-xs text-white mt-3"
+                                        }}
+                                        containerProps={{
+                                            className:"mt-3"
+                                        }}
+                                        onClick={()=>setFullNames((prevState) => !prevState)}
+                                        defaultChecked
+                                    />
+                            </div>
+
+                        
+                        </div>
+                    </div> 
+                </div>
+                <div className="flex flex-col md:flex-row py-2 justify-between items-center">
+                    <div className="flex flex-col md:flex-row items-center gap-3 px-3">
+                        <StaticImage src="../images/VisualTrig.png" alt="VisualTrig Logo" className="drop-shadow-2xl w-[200px] h-full"/>
+                        <div dangerouslySetInnerHTML={{__html: info.madeBy}} ></div>
+                    </div>
+
+                    <a href="https://github.com/AlejandroDagobah/VisualTrig" target="_blank" className="text-mainGreen text-sm underline-none transition-all duration-100 hover:-translate-y-[5px]">
+                        <span className="flex justify-between items-center">
+                        {info.repo}
+                        <IconBrandGithubFilled size={15} color="#13F4BE" className="ml-px"/>
+                        </span> 
+                    </a>
+                </div>
             </div>
-        </div>
+        </Layout>
     )
     
 }
