@@ -1,17 +1,16 @@
 import * as React from "react"
 import { Link } from "gatsby"
 import { StaticImage } from "gatsby-plugin-image"
-import { info } from "../info"
+import { info, seno, coseno, elevar, degToRad} from "../info"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import * as styles from "../components/index.module.css"
 
 
-export default function CanvasMain() {
+export default function CanvasMain(props) {
 
     const global = {
         mouseDown: false,
-        degree: 45, 
         radian: 0, 
         x: 0, 
         y: 0,
@@ -21,25 +20,51 @@ export default function CanvasMain() {
         tan: 0,
         cot: 0,
         sec: 0,
-        cosec: 0,
+        csc: 0,
     };
     
-    
-    
-  
-    var degree = global.degree;
-
     const canvasRef = React.useRef(null)
-    let ctx
+
     const [width, setWidth] = React.useState(0)
     const [height, setHeight] = React.useState(0)
 
+    function setInputValues() {
+   
+        info.INPUTS.forEach(input => {
+            switch (input.name) {
+                case 'Sin':
+                    input.value = global.sin
+                    break;
+                case 'Cot':
+                    input.value = global.cot
+                    break;
+                case 'Degrees':
+                    input.value = props.degree
+                    break;
+                case 'Cos':
+                    input.value = global.cos
+                    break;
+                case 'Sec':
+                    input.value = global.sec
+                    break;
+                case 'Radians':
+                    input.value = global.radian
+                    break;
+                case 'Tan':
+                    input.value = global.tan
+                    break;
+                case 'Csc':
+                    input.value = global.csc
+                    break;
+            
+                default:
+                    break;
+            }
+        });
 
-    function degToRad(degree) {
-        var radian = degree * ((Math.PI*2) / 360);
-        return radian
-    };
-    
+
+    }
+
     function $drawLine(ctx, startX, startY, endX, endY, color, lineWidth) {
         ctx.beginPath();
         ctx.moveTo(startX, startY);
@@ -73,92 +98,46 @@ export default function CanvasMain() {
     
     }
 
-    function setDegreeByMousePosition(ctx, catetoAdyacente, catetoOpuesto) {
+    function setDegreeByMousePosition(catetoAdyacente, catetoOpuesto) {
     
         var longitudY = - (catetoOpuesto - global.y),
             longitudX = catetoAdyacente - global.x;  
         
-        var degree = Math.atan(longitudY/longitudX) * 360 / (Math.PI*2)
+        var currentDegree = Math.atan(longitudY/longitudX) * 360 / (Math.PI*2)
         
         if(catetoAdyacente < global.x){
-            degree += 180
-    
-        }else if(catetoOpuesto > global.y){
-            degree += 360
+            currentDegree += 180            
+        }
+        else if(catetoOpuesto > global.y){
+            currentDegree += 360
     
         };
-    
-        global.degree = degree;
-    
-        draw(ctx, true)
+
+        props.setDegree(currentDegree)
+
         // drawCurves()
     
     };
     
-    function elevar(num, power){
+  
     
-        var result = 1 // 5
-    
-        for (let i = 0; i < power; i++) {
-            result *= num
-        }
-        
-        return result
-    }
-    
-    function factorial(x) {
-        let n = 1
-    
-        for (let i = 2; i <= x; i++) {
-            n *= i
-        }
-    
-        return n
-        
-    }
-    
-    function seno(x, iter) {
-        var result = 0
-    
-        for (let n = 0; n < iter; n++) {
-            
-            result += elevar((-1), n)/factorial(2*n + 1)* elevar(x, (2*n+1))
-            
-        }
-    
-        return result
-    
-    }
-    
-    function coseno(x, iter) {
-        var result = 0
-    
-        for (let n = 0; n < iter; n++) {
-            
-            result += elevar((-1), n)/factorial(2*n) * elevar(x, (2*n))
-            
-        }
-    
-        return result
-    
-    }
-    
-    const draw = (ctx, once = false) =>{
+    const draw = (ctx) =>{  
 
-        var w = ctx.canvas.offsetWidth,
-            h = ctx.canvas.offsetHeight
-        
+        const w = ctx.canvas.offsetWidth,
+        h = ctx.canvas.offsetHeight
+    
         ctx.clearRect(0, 0, w, h);
 
-        global.x = (w/2)
-        global.y = (h/2)
-        
+        const x = w/2
+        const y = h/2
 
+        global.x = x
+        global.y = y
         
-        const radio = info.CONFIG.radius
+        const radio = props.radio
         const startAngle = 0
         const endAngle = 2 * Math.PI
-        const degree = global.degree;
+        const degree = props.degree;
         const degreeInRad = degToRad(degree);
         
 
@@ -210,15 +189,6 @@ export default function CanvasMain() {
         // Calculate tangent & cotangent angle.
         const tanCotAngle = evenQuad ? coDegree : -coDegree;
 
-        global.radio = radio
-        global.radian = degreeInRad
-        global.sin = sin
-        global.cos = cos
-        global.tan = tan
-        global.cot = cotan
-        global.sec = Math.sqrt(1 + elevar(tan, 2))
-        global.csc = Math.sqrt(1 + elevar(cotan, 2))
-
         //para dibujar la circunferencia
         ctx.beginPath();
         ctx.lineWidth = info.CONFIG.lineWidth;
@@ -228,64 +198,54 @@ export default function CanvasMain() {
         ctx.fill();
         ctx.stroke();
         ctx.closePath();
-
-
-        //para dibujar el eje X
-        ctx.beginPath();
-        ctx.moveTo(0, global.y);
-        ctx.lineTo(w, global.y);
-        ctx.stroke();
-        ctx.closePath();
-
-        //para dibujar el eje Y
-        ctx.beginPath();
-        ctx.moveTo(global.x, 0);
-        ctx.lineTo(global.x, h);
-        ctx.stroke();
-        ctx.closePath();
-
-        info.CONFIG.drawRadius && $drawLine(ctx, global.x, global.y, cosenoLength, senoLength, info.COLORS.white, info.CONFIG.lineWidth)
-        info.CONFIG.drawNameRad && $drawText(ctx, global.x + (cosenoLength - global.x) / 2, global.y + ((senoLength - global.y)/2), info.NAMES.full.rad, {color: info.COLORS.white , angle: -degree})
+      
         
+        
+        //eje X
+        props.xBool && $drawLine(ctx, global.x, 0, global.x, h, info.COLORS.gray, info.CONFIG.lineWidth)
+        //eje Y
+        props.yBool && $drawLine(ctx, 0, global.y, w, global.y, info.COLORS.gray, info.CONFIG.lineWidth)
+        
+        //RADIO
+        props.radBool && $drawLine(ctx, global.x, global.y, cosenoLength, senoLength, info.COLORS.white, info.CONFIG.lineWidth)       
         //SENO
-        info.CONFIG.drawSin && $drawLine(ctx, cosenoLength, global.y, cosenoLength, senoLength, info.COLORS.green, 3)
-        info.CONFIG.drawNameSin && $drawText(ctx, cosenoLength + 1, global.y + ((senoLength - global.y)/2), info.NAMES.full.sin, {color: info.COLORS.green, angle: 90})
-        
+        props.sinBool && $drawLine(ctx, cosenoLength, global.y, cosenoLength, senoLength, info.COLORS.green, 3)
         //COSENO
-        info.CONFIG.drawCos && $drawLine(ctx, global.x, senoLength, cosenoLength, senoLength, info.COLORS.orange, 3)
-        info.CONFIG.drawNameSin && $drawText(ctx, global.x + (cosenoLength - global.x)/2, senoLength - 1, info.NAMES.full.cos, {color: info.COLORS.orange, angle: 0})
-
+        props.cosBool && $drawLine(ctx, global.x, senoLength, cosenoLength, senoLength, info.COLORS.orange, 3)
         //TAN
-        info.CONFIG.drawTan && $drawLine(ctx, secantLength, global.y, cosenoLength, senoLength, info.COLORS.yellow, 3)
-        info.CONFIG.drawNameTan && $drawText(ctx, cosenoLength + (tanX/2), global.y - 5 + (senoLength - global.y)/2, info.NAMES.full.tan, {color: info.COLORS.yellow, angle: tanCotAngle})
-        
+        props.tanBool && $drawLine(ctx, secantLength, global.y, cosenoLength, senoLength, info.COLORS.yellow, 3)
         //SEC
-        info.CONFIG.drawSec && $drawLine(ctx, global.x, global.y, secantLength, global.y, info.COLORS.cyan, 3)
-        info.CONFIG.drawNameSec && $drawText(ctx, global.x + (secantLength - global.x)/2, global.y + 17 , info.NAMES.full.sec, {color: info.COLORS.cyan, angle: 0})
-
-        //COTAN
-        info.CONFIG.drawCot && $drawLine(ctx, global.x, cosecanteLength, cosenoLength, senoLength, info.COLORS.purple, 3)
-        info.CONFIG.drawNameCot && $drawText(ctx, global.x + (cosenoLength - global.x)/2, senoLength - 5 + (cosecanteLength - senoLength)/2, info.NAMES.full.cot, {color: info.COLORS.purple, angle: tanCotAngle})
+        props.secBool && $drawLine(ctx, global.x, global.y, secantLength, global.y, info.COLORS.cyan, 3)
+        //COT
+        props.cotBool && $drawLine(ctx, global.x, cosecanteLength, cosenoLength, senoLength, info.COLORS.purple, 3)
+        //CSC
+        props.cscBool && $drawLine(ctx, global.x, global.y, global.x, cosecanteLength, info.COLORS.pink, 3)
         
-        //COSEC
-        info.CONFIG.drawCsc && $drawLine(ctx, global.x, global.y, global.x, cosecanteLength, info.COLORS.pink, 3)
-        info.CONFIG.drawNameCsc && $drawText(ctx, global.x - 17, global.y + (cosecanteLength - global.y)/2 , info.NAMES.full.csc, {color: info.COLORS.pink, angle: 90})
-
+        //Drawing Texts
+        props.radBool && props.showTexts && $drawText(ctx, global.x + (cosenoLength - global.x) / 2, global.y + ((senoLength - global.y)/2), props.fullNames ? info.NAMES.full.rad : info.NAMES.short.rad, {color: info.COLORS.white , angle: -degree})
+        props.sinBool && props.showTexts && $drawText(ctx, cosenoLength + 1, global.y + ((senoLength - global.y)/2), props.fullNames ? info.NAMES.full.sin : info.NAMES.short.sin, {color: info.COLORS.green, angle: 90})
+        props.cosBool && props.showTexts && $drawText(ctx, global.x + (cosenoLength - global.x)/2, senoLength - 1, props.fullNames ? info.NAMES.full.cos : info.NAMES.short.cos, {color: info.COLORS.orange, angle: 0})
+        props.tanBool && props.showTexts && $drawText(ctx, cosenoLength + (tanX/2), global.y + (senoLength - global.y)/2,  props.fullNames ? info.NAMES.full.tan:info.NAMES.short.tan, {color: info.COLORS.yellow, angle: tanCotAngle})
+        props.secBool && props.showTexts && $drawText(ctx, global.x + (secantLength - global.x)/2, global.y + 17 ,  props.fullNames ? info.NAMES.full.sec:info.NAMES.short.sec, {color: info.COLORS.cyan, angle: 0})
+        props.cotBool && props.showTexts && $drawText(ctx, global.x + (cosenoLength - global.x)/2, senoLength - 5 + (cosecanteLength - senoLength)/2,  props.fullNames ? info.NAMES.full.cot:info.NAMES.short.cot, {color: info.COLORS.purple, angle: tanCotAngle})
+        props.cscBool && props.showTexts && $drawText(ctx, global.x - 17, global.y + (cosecanteLength - global.y)/2 ,  props.fullNames ? info.NAMES.full.csc:info.NAMES.short.csc, {color: info.COLORS.pink, angle: 90})
         // info.CONFIG.play && !global.mouseDown && (global.degree += info.CONFIG.step)
 
-        // Reset at the end of circle.
-        if (global.degree > 360) {
-            global.degree %= 360;
-          } else if (global.degree < 0) {
-            global.degree += 360;
-          }
-      
+              
         // Set other states.
         global.degreeInRad = degreeInRad;
-        global.sin = sin;
-        global.cos = cos;
         global.quadrant = quadrant;
 
+        global.radio = radio
+        global.radian = degreeInRad
+        global.sin = sin
+        global.cos = cos
+        global.tan = tan
+        global.cot = cotan
+        global.sec = Math.sqrt(1 + elevar(tan, 2))
+        global.csc = Math.sqrt(1 + elevar(cotan, 2))
+
+        // info.INPUTS['].value = sin
 
         // !once && window.requestAnimationFrame(() => draw(ctx));
 
@@ -294,63 +254,6 @@ export default function CanvasMain() {
 }
 
 
-    React.useEffect(()=>{
-
-        const canvas = document.getElementById('canvasMain')
-        const ctx = canvas.getContext('2d')
-
-
-            canvas.addEventListener("mousedown", function (e) {
-        
-                global.mouseDown = true;
-                var mouseX = e.offsetX
-                var mouseY = e.offsetY 
-                setDegreeByMousePosition(ctx, mouseX, mouseY)
-            
-            });
-            
-            canvas.addEventListener("mousemove", function (e) {
-                
-                if(global.mouseDown == true){
-            
-                    setDegreeByMousePosition(ctx, e.offsetX, e.offsetY)
-                    
-                }    
-            });
-            
-            canvas.addEventListener("mouseup", function (e) {
-                global.mouseDown = false;
-            });
-            
-        
-        return(()=>{
-            canvas.removeEventListener("mousedown", function (e) {
-                global.mouseDown = true;
-                var mouseX = e.offsetX
-                var mouseY = e.offsetY 
-                setDegreeByMousePosition(ctx, mouseX, mouseY)
-            
-            })
-            
-            canvas.removeEventListener("mousemove", function (e) {
-                
-                if(global.mouseDown == true){
-            
-                    setDegreeByMousePosition(ctx, e.offsetX, e.offsetY)
-                }    
-            });
-            
-            canvas.removeEventListener("mouseup", function (e) {
-                global.mouseDown = false;
-            });
-            
-        })
-
-        console.log("LISTENERS EJECUTADO")
-
-
-
-    }, [])
 
     React.useEffect(()=>{
 
@@ -369,30 +272,93 @@ export default function CanvasMain() {
         }
 
         window.addEventListener('resize', resize)
-        
-
+    
         const ctx = canvas.getContext('2d')
 
         ctx.imageSmoothingQuality = "high"
         ctx.imageSmoothingEnabled = true
-        
+    
+
         draw(ctx)
-
-        console.log("DRAW EJECUTADO")
-
-
+        setInputValues()
         return ()=>{   
             window.removeEventListener('resize', resize)
         }
 
 
-    }, [width, draw]) 
+    }, [width, 
+        props.degree, 
+        props.radio,
+        props.showTexts,
+        props.fullNames,
+        props.radBool,
+        props.xBool,
+        props.yBool,
+        props.sinBool,
+        props.cosBool,
+        props.tanBool,
+        props.cotBool,
+        props.cscBool,
+        props.secBool]) 
     
+
+    React.useEffect(()=>{
+
+        const canvas = document.getElementById('canvasMain')
+        const ctx = canvas.getContext('2d')
+
+            canvas.addEventListener("mousedown", function (e) {
+        
+                global.mouseDown = true;
+                var mouseX = e.offsetX
+                var mouseY = e.offsetY 
+                setDegreeByMousePosition(mouseX, mouseY)
+            
+            });
+            
+            canvas.addEventListener("mousemove", function (e) {
+                
+                if(global.mouseDown == true){
+            
+                    setDegreeByMousePosition(e.offsetX, e.offsetY)
+                    
+                }    
+            });
+            
+            canvas.addEventListener("mouseup", function (e) {
+                global.mouseDown = false;
+            });
+            
+        
+        return(()=>{
+            canvas.removeEventListener("mousedown", function (e) {
+                global.mouseDown = true;
+                var mouseX = e.offsetX
+                var mouseY = e.offsetY 
+                setDegreeByMousePosition(mouseX, mouseY)
+            
+            })
+            
+            canvas.removeEventListener("mousemove", function (e) {
+                
+                if(global.mouseDown == true){
+            
+                    setDegreeByMousePosition(e.offsetX, e.offsetY)
+                }    
+            });
+            
+            canvas.removeEventListener("mouseup", function (e) {
+                global.mouseDown = false;
+            });
+            
+        })
+
+    }, [draw])
 
 
     return(
         <>
-            <div className="bg-mainBlack basis-3/4 rounded-xl drop-shadow-lg" id="canvasContainer"></div>
+            <div className="bg-mainBlack basis-2/3 md:basis-3/4 rounded-xl drop-shadow-lg" id="canvasContainer"></div>
             <canvas id="canvasMain" ref={canvasRef} width={width} height={height} className="absolute" />
         </>
     )
